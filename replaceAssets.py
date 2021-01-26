@@ -13,7 +13,7 @@ filename = filepath.split('/')[-1]
 metaData = {
     'asset': {
         #'parent_uid': '',
-        'content_type': mimetypes.guess_type(filepath + filename)[0]
+        'content_type': mimetypes.guess_type(filepath)[0]
         }
 } 
 
