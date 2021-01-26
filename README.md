@@ -1,7 +1,7 @@
 # python-asset-operations
-Create/Upload Assets - `uploadAsset.py`
-Replace Asset - `replaceAsset.py` (Similar function to change data around the asset - this one replaces file and filename)
-Get and Download Asset - `getAsset.py`
+* Create/Upload Assets - `uploadAsset.py`
+* Replace Asset - `replaceAsset.py` (Similar function to change data around the asset - this one replaces file and filename)
+* Get and Download Asset - `getAsset.py`
 
 *NOT OFFICIALLY SUPPORTED BY CONTENTSTACK*
 
