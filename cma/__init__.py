@@ -10,6 +10,7 @@ Environmental Variables needed:
  - CS_APIKEY (Stack API Key)
 '''
 import os
+from sys import exit
 from time import sleep
 import requests
 import config
@@ -29,11 +30,13 @@ except KeyError:
 
 managementToken = os.getenv('CS_MANAGEMENTOKEN', None)
 if not managementToken:
-    config.logging.critical('{}Management Token Missing. Nothing will work.{}'.format(config.RED, config.END))
+    config.logging.critical('{}Management Token Missing as an Environment Variable. Exiting Script.{}'.format(config.RED, config.END))
+    exit()
 
 apiKey = os.getenv('CS_APIKEY', None)
 if not apiKey:
-    config.logging.critical('{}Stack API Key Missing. Nothing will work.{}'.format(config.RED, config.END))
+    config.logging.critical('{}Stack API Key Missing as an Environment Variable. Exiting Script.{}'.format(config.RED, config.END))
+    exit()
 
 managementTokenHeader = {
         'authorization': managementToken,
