@@ -1,5 +1,6 @@
 '''
 Bulk create and optionally publish Assets - See comments below. (The publish action is commented out when this is written)
+Limitation: Only support files, not folders. Does not look for files in nested folders.
 oskar.eiriksson@contentstack.com
 2021-01-26
 '''
