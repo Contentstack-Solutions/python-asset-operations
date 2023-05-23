@@ -32,7 +32,11 @@ metaData = {
 for f in os.listdir(folder):
     metaData['asset']['content_type'] = mimetypes.guess_type(f)[0]
     filePath = folder + f
-    newAsset = cma.createAsset(filePath, metaData, f)
+    try:
+        newAsset = cma.createAsset(filePath, metaData, f)
+    except IsADirectoryError as e:
+        print('Skipping folder: ' + f + ' - This script only support files, not folders.')
+        continue
     '''
     Publishing Asset below - Comment out if you only want to create it, not publish
     '''
