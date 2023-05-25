@@ -89,7 +89,7 @@ def typicalGetIterate(url, dictKey, environment=None):
     count = 1 # Just making sure we check at least once. Setting the real count value in while loop
     if environment:
         url = url + '&environment={}'.format(environment)
-    print(url)
+    #print(url)
     originalURL = url
     while skip <= count:
         url = iterateURL(originalURL, skip)
@@ -262,6 +262,25 @@ def getAllFolders():
     url = '{region}v3/assets?query={{"is_dir": true}}&include_count=true'.format(region=region)
     return typicalGetIterate(url, 'assets')
 
+def createFolder(foldername, parent_uid=None):
+    '''
+    Create Folder
+    sample url: https://api.contentstack.io/v3/assets/folders
+    '''
+    url = '{region}v3/assets/folders'.format(region=region)
+    body = {
+        'asset': {
+            'name': foldername,
+        }
+    }
+    if parent_uid:
+        body['asset']['parent_uid'] = parent_uid
+
+    res = requests.post(url, json=body, headers=managementTokenHeader)
+    if res.status_code in (200, 201):
+        config.logging.info('Folder Created. ({})'.format(foldername))
+        return res.json()
+    return logError('asset', foldername, url, res)
 
 def getAllLanguages(apiKey, token, region):
     '''
