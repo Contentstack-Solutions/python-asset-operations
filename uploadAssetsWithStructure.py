@@ -1,10 +1,7 @@
 '''
 Bulk create files and folders
 vidar.masson@contentstack.com
-2023-05-25
-
-Caveats:
-- This script does not handle duplicate filenames, it will happily upload two files with the same name to the same folder.
+2023-05-26
 
 '''
 import os
@@ -12,6 +9,7 @@ import cma
 import json
 import mimetypes
 
+ALLOW_DUPLICATES = False # Set to True if you want to allow duplicate filenames in the same folder. If set to False, the script will not upload files with duplicate filenames.
 rootfolder = '/tmp/tmpImages/' # Path to folder with all assets that you want to import. Must end with a '/'.
 parentFolder = None # UID of parent folder being something like this: 'bltcbf66fcb8b9b3d6a' - Set to None if you want to import to root folder.
 
@@ -82,9 +80,21 @@ for root, dirs, files in os.walk(rootfolder):
             }
             # Update path2uid lookups
             path2uid[relative] = newFolder['asset']['uid']
-            
+
+existing_files = []
+if not ALLOW_DUPLICATES:
+    all_files = cma.getAllAssets()['assets']
+    for item in all_files:
+        if not item['is_dir']:
+            relpath = folderlookup[item['parent_uid']]['path'] if item['parent_uid'] in folderlookup else ''
+            fpath = os.path.join(relpath, item['filename'])
+            existing_files.append(fpath)
 
 for item in file_list:
+    if item in existing_files:
+        print('Skipping existing file: ' + item)
+        continue
     parent_uid = path2uid[os.path.dirname(item)] if os.path.dirname(item) in path2uid else None
     fname = os.path.basename(item)
     cma.createAsset(rootfolder + item, getMetadata(parent_uid, fname), fname)
+    print('Created file: ' + item)
