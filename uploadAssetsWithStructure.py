@@ -86,7 +86,7 @@ if not ALLOW_DUPLICATES:
     all_files = cma.getAllAssets()['assets']
     for item in all_files:
         if not item['is_dir']:
-            relpath = folderlookup[item['parent_uid']]['path'] if item['parent_uid'] in folderlookup else ''
+            relpath = folderlookup[item['parent_uid']]['path'] if ('parent_uid' in item and item['parent_uid']) in folderlookup else ''
             fpath = os.path.join(relpath, item['filename'])
             existing_files.append(fpath)
 
