@@ -11,7 +11,6 @@ import mimetypes
 
 ALLOW_DUPLICATES = False # Set to True if you want to allow duplicate filenames in the same folder. If set to False, the script will not upload files with duplicate filenames.
 rootfolder = '/tmp/tmpImages/' # Path to folder with all assets that you want to import. Must end with a '/'.
-parentFolder = None # UID of parent folder being something like this: 'bltcbf66fcb8b9b3d6a' - Set to None if you want to import to root folder.
 
 def pp(obj):
     print(json.dumps(obj, indent=4))
