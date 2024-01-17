@@ -3,6 +3,11 @@ Bulk create files and folders
 vidar.masson@contentstack.com
 2023-05-26
 
+--- Update 2024-01-17 ---
+mimetypes library does not support webp: https://bugs.python.org/issue38902
+Hardcode fix
+--- Update 2024-01-17 ---
+
 '''
 import os
 import cma
@@ -16,11 +21,15 @@ def pp(obj):
     print(json.dumps(obj, indent=4))
 
 def getMetadata(parentFolderUid, filename):
+    if filename.endswith('.webp'):
+        mime = 'image/webp'
+    else:
+        mime = mimetypes.guess_type(filename)[0]
     return {
         'asset':
             {
                 'parent_uid': parentFolderUid,
-                'content_type': mimetypes.guess_type(filename)[0]
+                'content_type': mime
             }
         }
 
