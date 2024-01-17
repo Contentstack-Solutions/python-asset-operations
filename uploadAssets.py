@@ -3,6 +3,12 @@ Bulk create and optionally publish Assets - See comments below. (The publish act
 Limitation: Only support files, not folders. Does not look for files in nested folders.
 oskar.eiriksson@contentstack.com
 2021-01-26
+
+--- Update 2024-01-17 ---
+mimetypes library does not support webp: https://bugs.python.org/issue38902
+Hardcoded webp files to image/webp - although it correctly works on my machine, it might not work on yours.
+--- Update 2024-01-17 ---
+
 '''
 import os
 import cma
@@ -31,7 +37,10 @@ metaData = {
 }
 
 for f in os.listdir(folder):
-    metaData['asset']['content_type'] = mimetypes.guess_type(f)[0]
+    if f.endswith('.webp'):
+        metaData['asset']['content_type'] = 'image/webp'
+    else:
+        metaData['asset']['content_type'] = mimetypes.guess_type(f)[0]
     filePath = folder + f
     try:
         newAsset = cma.createAsset(filePath, metaData, f)
